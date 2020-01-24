@@ -1,0 +1,121 @@
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) {
+		Garfield garfield = new Garfield();
+		garfield.inlezen();
+	}
+}
+
+class Garfield {
+	private int minuten;
+	private List<int[]> vissen;
+	private int[] garfield;
+	
+		public void inlezen() {
+			String lijn;
+			Scanner sc = new Scanner(System.in);
+			lijn = sc.nextLine();
+			int aantalTestgevallen = Integer.parseInt(lijn);
+			vissen = new ArrayList<int[]>();
+			for(int i=0; i<aantalTestgevallen; i++) {
+				Character[][] buurt;
+				garfield = new int[2];
+				maxAantal = new Stack<Integer>();
+				maxAantal.add(0);
+				
+				
+				//inlezen gegevens
+				lijn = sc.nextLine();
+				String[] temp = lijn.split(" ");
+				int breedte = Integer.parseInt(temp[0]);
+				int hoogte = Integer.parseInt(temp[1]);
+				minuten = Integer.parseInt(temp[2]);
+				buurt = new Character[hoogte][breedte];
+				for(int j=0; j<hoogte; j++) {
+					lijn = sc.nextLine();
+					for(int w=0; w<breedte; w++) {
+						if(lijn.charAt(w)=='G') {
+							garfield[0]=j;
+							garfield[1]=w;
+						}
+						if(lijn.charAt(w)=='E') {
+							int[] tijd = new int[2];
+							tijd[0]=j;
+							tijd[1]=w;
+							vissen.add(tijd);
+						}
+						buurt[j][w]=lijn.charAt(w);
+					}
+				}
+			int tijd = i+1;
+			System.out.println(tijd + " " + berekenen());
+		}
+		sc.close();
+	}
+	
+	private int berekenen() {
+		int overgeblevenTijd = minuten;
+		int aantalVissen=0;
+		private Stack<Integer> maxAantal;
+		for(int j=0; j<vissen.size(); j++) {
+			if(kanOpTijdZijn(overgeblevenTijd, garfield, vissen.get(j))) {
+				int tijd = overgeblevenTijd - verlopenTijd(afstand(garfield, vissen.get(j)));
+				Set<int[]> opgegetenVissen =  new HashSet<int[]>();
+				int[] verplaatsGarfield = vissen.get(j);
+				opgegetenVissen.add(vissen.get(j));
+				maxAantal.add(1);
+				maxAantal.add(backtrack(aantalVissen+1, verplaatsGarfield, opgegetenVissen, tijd));
+			}
+
+		}
+		return Collections.max(maxAantal);
+	}
+	
+	private boolean kanOpTijdZijn(int overgeblevenTijd, int[] nu, int[] naar) {
+		int afstand=afstand(nu, naar);
+		int vanThuis=afstand(nu, garfield);
+		if(overgeblevenTijd - (afstand+1) - vanThuis >= 0) return true;
+		return false;
+	}
+	
+	private int verlopenTijd(int afstand) {
+		return (2 * afstand) + 1;
+	}
+	
+	private int afstand(int[] plaats1, int[] plaats2) {
+		return Math.abs(plaats1[0] - plaats2[0]) + Math.abs(plaats1[1] - plaats2[1]);
+	}
+	
+	private int[] vindDichtste(Set<int[]> opgegetenVissen, int[] verplaatsGarfield) {
+		List<int[]> nogTeEten = vissen;
+		nogTeEten.removeAll(opgegetenVissen);
+		if(nogTeEten.size()<=0) return null;
+		int[] tijdelijkeDichtste = nogTeEten.get(0);
+		for(int i=0; i<nogTeEten.size(); i++) {
+			if(afstand(verplaatsGarfield, tijdelijkeDichtste) > afstand(verplaatsGarfield, nogTeEten.get(i))) {
+				tijdelijkeDichtste=nogTeEten.get(i);
+			}
+		}
+		return tijdelijkeDichtste;
+	}
+	
+	private int backtrack(int aantalVissen, int[] verplaatsGarfield, Set<int[]> opgegetenVissen, int overgeblevenTijd) {
+		
+		if(overgeblevenTijd>=0) {
+			int[] dichtsteVis = vindDichtste(opgegetenVissen, verplaatsGarfield);
+			if(dichtsteVis==null) return aantalVissen;
+			if(kanOpTijdZijn(overgeblevenTijd, verplaatsGarfield, dichtsteVis)) {
+				overgeblevenTijd-=afstand(verplaatsGarfield, dichtsteVis)+1;
+				aantalVissen++;
+				opgegetenVissen.add(dichtsteVis);
+				aantalVissen = backtrack(aantalVissen, dichtsteVis, opgegetenVissen, overgeblevenTijd);
+			} else {
+				opgegetenVissen.add(dichtsteVis);
+				aantalVissen = backtrack(aantalVissen, verplaatsGarfield, opgegetenVissen, overgeblevenTijd);
+			}
+		}
+		return aantalVissen;
+	}
+	
+}

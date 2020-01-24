@@ -1,0 +1,21 @@
+6
+2
+abc efg evenwicht
+a e omhoog
+4
+abcd efgh evenwicht
+abci efjk omhoog
+abij efgl evenwicht
+mnopqrs tuvwxyz evenwicht
+2
+ab st omhoog
+ef ab omlaag
+3
+cdefghijklmn opqrstuvwxyz evenwicht
+a b omhoog
+b c evenwicht
+1
+a b evenwicht
+2
+acx bdy omhoog
+pst aeq omhoog

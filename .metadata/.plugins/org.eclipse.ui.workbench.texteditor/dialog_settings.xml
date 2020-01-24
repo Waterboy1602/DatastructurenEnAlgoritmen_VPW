@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="isRegEx" value="false"/>
+		<item key="selection" value="print"/>
+		<item key="casesensitive" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="wrap" value="true"/>
+		<item key="wholeword" value="false"/>
+		<list key="findhistory">
+			<item value="1 ONMOGELIJK"/>
+			<item value="print"/>
+			<item value="list"/>
+			<item value="set"/>
+			<item value="eersteOpStapel"/>
+			<item value="&lt;="/>
+			<item value="pop"/>
+			<item value="out"/>
+			<item value="scFile"/>
+			<item value="system"/>
+			<item value="leng"/>
+			<item value="len"/>
+			<item value="ha"/>
+			<item value="char"/>
+		</list>
+		<list key="replacehistory">
+			<item value="peek"/>
+			<item value="sc"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_WIDTH" value="277"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-24|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+		<item key="DIALOG_HEIGHT" value="370"/>
+		<item key="DIALOG_X_ORIGIN" value="1063"/>
+		<item key="DIALOG_Y_ORIGIN" value="228"/>
+	</section>
+</section>

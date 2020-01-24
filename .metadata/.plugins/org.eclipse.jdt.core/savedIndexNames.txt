@@ -1,0 +1,12 @@
+INDEX VERSION 1.131+C:\Users\Wannes\Nextcloud\School\2 Industrieel Ingenieur\Datastructuren en algoritmen\Practica\.metadata\.plugins\org.eclipse.jdt.core
+3459198318.index
+2784269366.index
+3679921752.index
+2842528100.index
+3029013274.index
+2815112422.index
+2922695617.index
+1245363931.index
+3337332295.index
+1985479596.index
+3856789135.index

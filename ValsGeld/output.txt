@@ -1,0 +1,6 @@
+Inconsistente gegevens.
+Het valse geldstuk k is lichter.
+Te weinig gegevens.
+Het valse geldstuk a is zwaarder.
+Te weinig gegevens.
+Inconsistente gegevens.

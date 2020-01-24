@@ -1,0 +1,78 @@
+import java.util.Scanner;
+import java.io.*;
+import java.util.*;
+
+public class main {
+
+	public static void main(String[] args) {
+		int letter=64; //een letter voor A in ASCII
+		FileReader fr = new FileReader("braille.txt");
+		Scanner scFile = new Scanner(fr);
+		Map<Character,List<Character>> brailleAlfabet = new HashMap<Character,List<Character>>();
+		Map<Integer,List<Character>> brailleTemp = new HashMap<Integer,List<Character>>();
+		List<Character> braille = new ArrayList<Character>(6);
+		
+		for(int j=0; j<3; j++) {
+				for(int i=0; i<52; i++) {
+					if(i % 2 ==0) {	//even nummer
+						letter++;
+						if(brailleAlfabet.containsKey((char) letter)) {
+							brailleAlfabet.replace((char) letter, braille);
+						} else {
+							brailleAlfabet.put((char) letter, braille);
+						}
+					}
+					if(brailleAlfabet.containsKey((char) letter)) {
+						brailleAlfabet.get((char)letter).add(scFile.next().charAt(i % 2));
+					} else {
+						braille.add(scFile.next().charAt(i % 2));
+					}
+				}
+				scFile.nextLine();
+		}
+		int aantalLijnenTekst = (int) scFile.next().charAt(1);
+		for(int i=0; i<aantalLijnenTekst; i++) {
+			int aantalTekensOpLijn = 0;
+			while(scFile.hasNext()) {
+				aantalTekensOpLijn++;
+			}
+			int aantalLetterOpLijn = aantalTekensOpLijn/2;
+			letter = 0;
+			//maak nieuwe hashmap met de braille in volgorde. Met positie als key
+			for(int w=0; w<3; w++) { //drie want drie rijen per braille
+				for(int x=0; x<aantalTekensOpLijn; x++) {
+					if(i % 2 ==0) {	//even nummer
+						letter++;
+						if(brailleTemp.containsKey(letter)) {
+							brailleTemp.replace(letter, braille);
+						} else {
+							brailleTemp.put(letter, braille);
+						}
+					}
+					if(brailleTemp.containsKey(letter)) {
+						brailleTemp.get(letter).add(scFile.next().charAt(i % 2));
+					} else {
+						braille.add(scFile.next().charAt(i % 2));
+					}
+				}
+				scFile.nextLine();
+			}
+			scFile.hasNextLine();
+			System.out.print(i +1 + ". ");
+			for (int w = 0; w<aantalLetterOpLijn; w++) {
+				for(int vergelijkLetter=61; vergelijkLetter<87; vergelijkLetter++) {
+					 if(brailleAlfabet.get((char) vergelijkLetter).equals(brailleTemp.get(w))){
+						 System.out.print((char)vergelijkLetter);
+					 }
+				}
+			}
+			
+			
+			
+		}
+		scFile.close();
+	}
+
+}
+
+

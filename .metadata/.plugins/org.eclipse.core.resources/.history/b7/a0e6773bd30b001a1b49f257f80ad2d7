@@ -1,0 +1,135 @@
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) {
+		Garfield garfield = new Garfield();
+		garfield.inlezen();
+	}
+}
+
+class Garfield {
+	static int totAfstand;
+	static int start=0;
+	static int[][] afstanden;
+	private int minuten;
+	private List<int[]> vissen;
+	private int[] garfield;
+	private int aantal;
+		public void inlezen() {
+			String lijn;
+			Scanner sc = new Scanner(System.in);
+			lijn = sc.nextLine();
+			int aantalTestgevallen = Integer.parseInt(lijn);
+			vissen = new ArrayList<int[]>();
+			for(int i=0; i<aantalTestgevallen; i++) {
+				vissen.clear();
+				//inlezen gegevens
+				lijn = sc.nextLine();
+				String[] temp = lijn.split(" ");
+				int breedte = Integer.parseInt(temp[0]);
+				int hoogte = Integer.parseInt(temp[1]);
+				minuten = Integer.parseInt(temp[2]);
+				for(int j=0; j<hoogte; j++) {
+					lijn = sc.nextLine();
+					for(int w=0; w<breedte; w++) {
+						if(lijn.charAt(w)=='G') {
+							garfield = new int[2];				
+							garfield[0]=j;
+							garfield[1]=w;
+						}
+						if(lijn.charAt(w)=='E') {
+							int[] tijd = new int[2];
+							tijd[0]=j;
+							tijd[1]=w;
+							vissen.add(tijd);
+						}
+					}
+				}
+				List<int[]> totaal = new ArrayList<int[]>();
+				totaal.add(garfield);
+				for(int j=0; j<vissen.size(); j++) {
+					totaal.add(vissen.get(j));
+				}
+				afstanden = new int[totaal.size()][totaal.size()];
+				for(int j=0; i<totaal.size(); i++) {
+					for (int k=0; k<totaal.size(); k++) {
+						afstanden[j][k] = afstand(totaal.get(j), totaal.get(k));
+					}
+				}
+				int tijd = i+1;
+				aantal=0;
+				//if(i==28 || i==29) {
+					//System.out.println(minuten);
+					//System.out.println(vissen.size());
+					for(int k=1; k<totaal.size(); k++) {
+						if((2*afstanden[k][0])<=minuten) {
+							//System.out.println("start vis " + k);
+							List<int[]> opgegetenVissen = new ArrayList<int[]>();
+							boolean opgelost=false;
+							totAfstand=afstanden[k][0];
+							//System.out.println("begin afstand = ")
+							totAfstand+=1;
+							opgegetenVissen.add(totaal.get(k));
+							backtrack(0, opgegetenVissen, 1, opgelost);
+						}
+					}
+					System.out.println(tijd + " " + aantal);
+	
+				}
+				//}
+			sc.close();
+		}
+		
+	private int afstand(int[] plaats1, int[] plaats2) {
+		return Math.abs(plaats1[0] - plaats2[0]) + Math.abs(plaats1[1] - plaats2[1]);
+	}
+	
+	private void backtrack(int verplaatsGarfield, List<int[]> opgegetenVissen, int start, boolean opgelost) {
+		
+		while(start<vissen.size() && !opgelost) {
+			int vorigeStart=start;
+			int vorigeGarf=verplaatsGarfield;
+			//System.out.println(start);
+
+			if(!opgegetenVissen.contains(vissen.get(start))) {
+
+				if((totAfstand + afstanden[0][verplaatsGarfield] + afstanden[start][verplaatsGarfield]) + 1<=minuten) {
+					totAfstand+=afstanden[verplaatsGarfield][start];
+					totAfstand+=1;
+					verplaatsGarfield=start;
+					opgegetenVissen.add(vissen.get(start));
+					//System.out.println("vissen " + opgegetenVissen.size());
+					if(opgegetenVissen.size()==vissen.size()) {
+						opgelost=true;
+						//System.out.println("opgelost");
+					} else {
+						//System.out.println("hey " + start);
+						//System.out.println("+afstand " + totAfstand);
+						backtrack(verplaatsGarfield, opgegetenVissen, 1, opgelost);
+						totAfstand-=afstanden[vorigeGarf][vorigeStart];
+						totAfstand-=1;
+						//System.out.println("-afstand " + totAfstand);
+						start=vorigeStart;
+						verplaatsGarfield=vorigeGarf;
+						opgegetenVissen.remove(opgegetenVissen.size()-1);
+						
+						//System.out.println("vorige " + start);
+
+					}
+				}
+			}
+			start++;
+			
+		}
+	
+		//System.out.println(opgegetenVissen.size());
+		if(opgegetenVissen.size()>aantal) {
+			aantal=opgegetenVissen.size();
+		}
+		
+		
+		if(start==vissen.size()) {
+			return;
+		}
+	}
+}

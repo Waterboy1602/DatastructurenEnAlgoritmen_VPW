@@ -1,0 +1,80 @@
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) {
+		Garfield garfield = new Garfield();
+		garfield.inlezen();
+	}
+}
+
+class Garfield {
+	static int totAfstand=0;
+	static int start=0;
+	private int minuten;
+	private List<int[]> vissen;
+	private int[] garfield;
+	private Set<Integer> aantal = new HashSet<Integer>();
+		public void inlezen() {
+			String lijn;
+			Scanner sc = new Scanner(System.in);
+			lijn = sc.nextLine();
+			int aantalTestgevallen = Integer.parseInt(lijn);
+			vissen = new ArrayList<int[]>();
+			for(int i=0; i<aantalTestgevallen; i++) {
+				aantal.clear();
+				//inlezen gegevens
+				lijn = sc.nextLine();
+				String[] temp = lijn.split(" ");
+				int breedte = Integer.parseInt(temp[0]);
+				int hoogte = Integer.parseInt(temp[1]);
+				minuten = Integer.parseInt(temp[2]);
+				for(int j=0; j<hoogte; j++) {
+					lijn = sc.nextLine();
+					for(int w=0; w<breedte; w++) {
+						if(lijn.charAt(w)=='G') {
+							garfield = new int[2];				
+							garfield[0]=j;
+							garfield[1]=w;
+						}
+						if(lijn.charAt(w)=='E') {
+							int[] tijd = new int[2];
+							tijd[0]=j;
+							tijd[1]=w;
+							vissen.add(tijd);
+						}
+					}
+				}
+			int tijd = i+1;
+			List<int[]> opgegetenVissen = new ArrayList<int[]>();
+			backtrack(0, garfield, opgegetenVissen,0);
+			System.out.println(tijd + " " + Collections.max(aantal));
+		}
+		sc.close();
+	}
+	
+	private int afstand(int[] plaats1, int[] plaats2) {
+		return Math.abs(plaats1[0] - plaats2[0]) + Math.abs(plaats1[1] - plaats2[1]);
+	}
+	
+	private void backtrack(int aantalVissen, int[] verplaatsGarfield, List<int[]> opgegetenVissen, int start) {
+		if(start==vissen.size()) {
+			
+			return;
+		}
+		
+		if(totAfstand<=minuten) {
+			return;
+		}
+		
+		while(start<vissen.size()) {
+			if(!opgegetenVissen.contains(vissen.get(start))) {
+				verplaatsGarfield=vissen.get(start);
+				if(totAfstand + afstand(garfield, verplaatsGarfield)<=minuten) {
+					opgegetenVissen.add(vissen.get(start));	
+					start++;
+					backtrack(aantalVissen, verplaatsGarfield, opgegetenVissen, start++);
+				}
+			}
+		}
+	}
+}
